@@ -29,7 +29,6 @@ syntax keyword elvishBuiltinCommand
   \ all
   \ assoc
   \ base
-  \ break
   \ cd
   \ chr
   \ constantly
