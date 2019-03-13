@@ -170,9 +170,9 @@ syntax match elvishComment "#.*$" display contains=elvishTodo
 
 syntax match elvishFunction "\%(^\s*fn\s\+\)\@<=\%(\w\|-\)*"
 
-syn match  elvishDeref contained "\%(\\\\\)*\\[\\"'`$(){}#]"
-syn cluster elvishDerefList  contains=elvishDeref
-syn match  elvishVariableAccess "\$\%(@\|\)[a-zA-Z0-9_-]*"
+syntax match  elvishDeref contained "\%(\\\\\)*\\[\\"'`$(){}#]"
+syntax cluster elvishDerefList  contains=elvishDeref
+syntax match  elvishVariableAccess "\$\%(@\|\)[a-zA-Z0-9_-]*"
   \ contains=
     \ elvishBoolean,
     \ elvishBuiltinVariable
