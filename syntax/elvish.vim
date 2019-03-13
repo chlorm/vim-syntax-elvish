@@ -173,6 +173,9 @@ syntax match elvishFunction "\%(^\s*fn\s\+\)\@<=\%(\w\|-\)*"
 syn match  elvishDeref contained "\%(\\\\\)*\\[\\"'`$(){}#]"
 syn cluster elvishDerefList  contains=elvishDeref
 syn match  elvishVariableAccess "\$\%(@\|\)[a-zA-Z0-9_-]*"
+  \ contains=
+    \ elvishBoolean,
+    \ elvishBuiltinVariable
   \ nextgroup=@elvishDerefList
 " XXX: using elvishOperator here may cause unwanted matches.
 syntax match elvishVariableAssignment "[a-zA-Z0-9:_-]*[ ]*\ze="
