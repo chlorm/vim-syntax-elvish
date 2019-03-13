@@ -230,25 +230,25 @@ syntax region elvishMap start="\[" end="]"
     \ elvishVariableAccess,
     \ elvishVariableAssignment
 
-highlight link elvishBoolean Boolean
-highlight link elvishBuiltinCommand Builtin
-highlight link elvishBuiltinVariable Builtin
-highlight link elvishComment Comment
-highlight link elvishConditional Conditional
-highlight link elvishException Exception
-highlight link elvishFunction Function
-highlight link elvishInclude Include
-highlight link elvishMapKey FunctionArgument
-highlight link elvishNumber Number
-highlight link elvishNumberHex Number
-highlight link elvishOperator Operator
-highlight link elvishOperatorKeyword Operator
-highlight link elvishRepeat Repeat
-highlight link elvishStatement Statement
-highlight link elvishString String
-highlight link elvishStringDelimiter String
-highlight link elvishVariableAccess elvishVariable
-highlight link elvishVariableAssignment elvishVariable
-highlight link elvishVariable Normal
-highlight link elvishTodo Todo
+highlight default link elvishBoolean Boolean
+highlight default link elvishBuiltinCommand Builtin
+highlight default link elvishBuiltinVariable Builtin
+highlight default link elvishComment Comment
+highlight default link elvishConditional Conditional
+highlight default link elvishException Exception
+highlight default link elvishFunction Function
+highlight default link elvishInclude Include
+highlight default link elvishMapKey FunctionArgument
+highlight default link elvishNumber Number
+highlight default link elvishNumberHex Number
+highlight default link elvishOperator Operator
+highlight default link elvishOperatorKeyword Operator
+highlight default link elvishRepeat Repeat
+highlight default link elvishStatement Statement
+highlight default link elvishString String
+highlight default link elvishStringDelimiter String
+highlight default link elvishVariableAccess elvishVariable
+highlight default link elvishVariableAssignment elvishVariable
+highlight default link elvishVariable Normal
+highlight default link elvishTodo Todo
 
