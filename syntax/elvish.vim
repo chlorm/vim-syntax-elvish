@@ -24,7 +24,7 @@ syntax sync fromstart
 syntax keyword elvishStatement fn nextgroup=elvishFunction skipwhite
 syntax keyword elvishStatement break continue return
 
-" FIXME: Don't highlight if proceeded by a $ or &
+" FIXME: Don't highlight if proceeded by an & or [a-zA-Z0-9-]
 syntax keyword elvishBuiltinCommand
   \ all
   \ assoc
