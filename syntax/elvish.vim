@@ -219,7 +219,8 @@ syntax region elvishScope start="{" end="}"
 
 " Vim regex is kinda backwards from perl regex
 " `\(&\)\@<=` would be `(?<=&)` in perl
-syntax match elvishMapKey '\%(&\)\@<=\%([0-9a-zA-Z_\-]*\)\%(=\)\@='
+syntax match elvishMapKey '\%(&\)\@<=\%([0-9a-zA-Z_-]*\ze=\)'
+  \ nextgroup=elvishOperator
 syntax region elvishMap start="\[" end="]"
   \ contains=
     \ elvishBoolean,
