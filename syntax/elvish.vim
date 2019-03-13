@@ -144,9 +144,10 @@ syntax keyword elvishOperatorKeyword and bool is or
 syntax match elvishOperatorKeyword "not\(-eq\|\)"
 syntax match elvishOperator
   \ '\%(except\s\+\|[a-zA-Z0-9_=*\-]\)\@<!\%(+\|-\|/\|%\|\^\|!\|?\||\)\%([a-zA-Z0-9_=*\-]\)\@!'
+  \ contained
 syntax match elvishOperator
-  \ '\(!\|+\|-\|\)=\(=\|\)\(s\|\)\|\(>\|<\)\(=\|\)\(s\|\)\|>='
-syntax match elvishOperator ';\|&\|:\|,\|*'
+  \ '\(!\|+\|-\|\)=\(=\|\)\(s\|\)\|\(>\|<\)\(=\|\)\(s\|\)\|>=' contained
+syntax match elvishOperator ';\|&\|,\|*'
 
 " FIXME: would be nice to not implement this per-language
 syntax keyword elvishTodo
@@ -170,6 +171,14 @@ syntax match elvishComment "#.*$" display contains=elvishTodo
 
 syntax match elvishFunction "\%(^\s*fn\s\+\)\@<=\%(\w\|-\)*"
 
+syn match  elvishDeref contained "\%(\\\\\)*\\[\\"'`$(){}#]"
+syn cluster elvishDerefList  contains=elvishDeref
+syn match  elvishVariableAccess "\$\%(@\|\)[a-zA-Z0-9_-]*"
+  \ nextgroup=@elvishDerefList
+" XXX: using elvishOperator here may cause unwanted matches.
+syntax match elvishVariableAssignment "[a-zA-Z0-9:_-]*[ ]*\ze="
+  \ nextgroup=elvishOperator
+
 syntax region elvishString matchgroup=elvishStringDelimiter start=+"+ end=+"+
 syntax region elvishString matchgroup=elvishStringDelimiter start=+'+ end=+'+
 
@@ -184,7 +193,8 @@ syntax region elvishCommandSubstitution start="(" end=")"
     \ elvishOperator,
     \ elvishOperatorKeyword,
     \ elvishString,
-    \ elvishVariableInt
+    \ elvishVariableAccess,
+    \ elvishVariableAssignment
 
 syntax region elvishScope start="{" end="}"
   \ contains=
@@ -202,7 +212,8 @@ syntax region elvishScope start="{" end="}"
     \ elvishRepeat,
     \ elvishStatement,
     \ elvishString,
-    \ elvishVariableInt
+    \ elvishVariableAccess,
+    \ elvishVariableAssignment
 
 " Vim regex is kinda backwards from perl regex
 " `\(&\)\@<=` would be `(?<=&)` in perl
@@ -215,7 +226,9 @@ syntax region elvishMap start="\[" end="]"
     \ elvishMapKey,
     \ elvishNumber,
     \ elvishOperator,
-    \ elvishString
+    \ elvishString,
+    \ elvishVariableAccess,
+    \ elvishVariableAssignment
 
 highlight link elvishBoolean Boolean
 highlight link elvishBuiltinCommand Builtin
@@ -234,6 +247,8 @@ highlight link elvishRepeat Repeat
 highlight link elvishStatement Statement
 highlight link elvishString String
 highlight link elvishStringDelimiter String
+highlight link elvishVariableAccess elvishVariable
+highlight link elvishVariableAssignment elvishVariable
 highlight link elvishVariable Normal
 highlight link elvishTodo Todo
 
