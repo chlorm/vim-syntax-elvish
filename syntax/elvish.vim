@@ -144,9 +144,8 @@ syntax keyword elvishOperatorKeyword and bool is or
 syntax match elvishOperatorKeyword "not\(-eq\|\)"
 syntax match elvishOperator
   \ '\%(except\s\+\|[a-zA-Z0-9_=*\-]\)\@<!\%(+\|-\|/\|%\|\^\|!\|?\||\)\%([a-zA-Z0-9_=*\-]\)\@!'
-  \ contained
 syntax match elvishOperator
-  \ '\(!\|+\|-\|\)=\(=\|\)\(s\|\)\|\(>\|<\)\(=\|\)\(s\|\)\|>=' contained
+  \ '\(!\|+\|-\|\)=\(=\|\)\(s\|\)\|\(>\|<\)\(=\|\)\(s\|\)\|>='
 syntax match elvishOperator ';\|&\|,\|*'
 
 " FIXME: would be nice to not implement this per-language
