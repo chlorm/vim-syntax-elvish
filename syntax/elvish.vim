@@ -47,6 +47,7 @@ syntax keyword elvishBuiltinCommand
   \ fail
   \ fclose
   \ fg
+  \ float64
   \ fopen
   \ joins
   \ keys
