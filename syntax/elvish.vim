@@ -53,6 +53,7 @@ syntax keyword elvishBuiltinCommand
   \ keys
   \ nop
   \ ns
+  \ one
   \ ord
   \ peach
   \ pipe
