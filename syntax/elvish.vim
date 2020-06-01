@@ -220,7 +220,6 @@ syntax region elvishScope start="{" end="}"
     \ elvishVariableAccess,
     \ elvishVariableAssignment
 
-" FIXME: only first map key per map is highlighted
 syntax region elvishMapKey matchgroup=Operator start="&]\@!" end="="
 syntax region elvishMap start="\[" end="]"
   \ contains=
