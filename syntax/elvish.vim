@@ -1,4 +1,4 @@
-" Copyright (c) 2018-2019, Cody Opel <codyopel@gmail.com>
+" Copyright (c) 2018-2020, Cody Opel <cwopel@chlorm.net>
 "
 " Licensed under the Apache License, Version 2.0 (the "License");
 " you may not use this file except in compliance with the License.
@@ -220,10 +220,8 @@ syntax region elvishScope start="{" end="}"
     \ elvishVariableAccess,
     \ elvishVariableAssignment
 
-" Vim regex is kinda backwards from perl regex
-" `\(&\)\@<=` would be `(?<=&)` in perl
-syntax match elvishMapKey '\%(&\)\@<=\%([0-9a-zA-Z_-]*\ze=\)'
-  \ nextgroup=elvishOperator
+" FIXME: only first map key per map is highlighted
+syntax region elvishMapKey matchgroup=Operator start="&]\@!" end="="
 syntax region elvishMap start="\[" end="]"
   \ contains=
     \ elvishBoolean,
