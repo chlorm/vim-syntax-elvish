@@ -18,6 +18,9 @@ endif
 
 let b:current_syntax = 'elvish'
 
+" Elvish allows hyphens in variable and function names
+set iskeyword+=-
+
 " Slower, but prevents some elements from not being highlighted when scrolling.
 syntax sync fromstart
 
@@ -33,6 +36,7 @@ syntax keyword elvishBuiltinCommand
   \ chr
   \ constantly
   \ count
+  \ dir-history
   \ dissoc
   \ drop
   \ each
@@ -40,6 +44,7 @@ syntax keyword elvishBuiltinCommand
   \ echo
   \ eq
   \ esleep
+  \ eval-symlinks
   \ exec
   \ exit
   \ explode
@@ -49,12 +54,31 @@ syntax keyword elvishBuiltinCommand
   \ fg
   \ float64
   \ fopen
+  \ from-json
+  \ from-lines
+  \ get-env
+  \ has-env
+  \ has-external
+  \ has-key
+  \ has-prefix
+  \ has-suffix
+  \ has-value
   \ joins
   \ keys
+  \ kind-of
+  \ multi-error
   \ nop
   \ ns
   \ one
+  \ only-bytes
+  \ only-values
   \ ord
+  \ order
+  \ path-abs
+  \ path-base
+  \ path-clean
+  \ path-dir
+  \ path-ext
   \ peach
   \ pipe
   \ pprint
@@ -69,49 +93,29 @@ syntax keyword elvishBuiltinCommand
   \ replaces
   \ repr
   \ resolve
+  \ run-parallel
+  \ search-external
+  \ set-env
+  \ styled
+  \ styled-segment
   \ slurp
   \ spawn
   \ splits
   \ src
   \ take
+  \ tilde-abbr
+  \ to-json
+  \ to-lines
+  \ unset-env
   \ wcswidth
-syntax match elvishBuiltinCommand "dir-history"
-syntax match elvishBuiltinCommand "eval-symlinks"
-syntax match elvishBuiltinCommand "from-lines"
-syntax match elvishBuiltinCommand "from-json"
-syntax match elvishBuiltinCommand "get-env"
-syntax match elvishBuiltinCommand "has-env"
-syntax match elvishBuiltinCommand "has-external"
-syntax match elvishBuiltinCommand "has-key"
-syntax match elvishBuiltinCommand "has-prefix"
-syntax match elvishBuiltinCommand "has-suffix"
-syntax match elvishBuiltinCommand "has-value"
-syntax match elvishBuiltinCommand "kind-of"
-syntax match elvishBuiltinCommand "multi-error"
-syntax match elvishBuiltinCommand "only-bytes"
-syntax match elvishBuiltinCommand "only-values"
-syntax match elvishBuiltinCommand "path-abs"
-syntax match elvishBuiltinCommand "path-base"
-syntax match elvishBuiltinCommand "path-clean"
-syntax match elvishBuiltinCommand "path-dir"
-syntax match elvishBuiltinCommand "path-ext"
-syntax match elvishBuiltinCommand "run-parallel"
-syntax match elvishBuiltinCommand "search-external"
-syntax match elvishBuiltinCommand "set-env"
-syntax match elvishBuiltinCommand "styled\(-segment\|\)"
-syntax match elvishBuiltinCommand "tilde-abbr"
-syntax match elvishBuiltinCommand "to-json"
-syntax match elvishBuiltinCommand "to-lines"
-syntax match elvishBuiltinCommand "to-string"
-syntax match elvishBuiltinCommand "unset-env"
-syntax match elvishBuiltinCommand "-gc"
-syntax match elvishBuiltinCommand "-ifaddrs"
-syntax match elvishBuiltinCommand "-is-dir"
-syntax match elvishBuiltinCommand "-log"
-syntax match elvishBuiltinCommand "-override-wcwidth"
-syntax match elvishBuiltinCommand "-source"
-syntax match elvishBuiltinCommand "-stack"
-syntax match elvishBuiltinCommand "-time"
+  \ -gc
+  \ -ifaddrs
+  \ -is-dir
+  \ -log
+  \ -override-wcwidth
+  \ -source
+  \ -stack
+  \ -time
 syntax match elvishBuiltinVariable "$_"
 syntax match elvishBuiltinVariable "$after-chdir"
 syntax match elvishBuiltinVariable "$args"
@@ -143,8 +147,7 @@ syntax match elvishNumber '\([&\$]\)\@<!\<[1-9][0-9]*\d\>' display
 
 syntax match elvishNumberHex '\<0[xX][0-9a-fA-F]*\x\>' display
 
-syntax keyword elvishOperatorKeyword and bool is or
-syntax match elvishOperatorKeyword "not\(-eq\|\)"
+syntax keyword elvishOperatorKeyword and bool is not not-eq or
 syntax match elvishOperator
   \ '\%(except\s\+\|[a-zA-Z0-9_=*\-]\)\@<!\%(+\|-\|/\|%\|\^\|!\|?\||\)\%([a-zA-Z0-9_=*\-]\)\@!'
 syntax match elvishOperator
