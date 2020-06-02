@@ -66,6 +66,7 @@ syntax keyword elvishBuiltinCommand
   \ joins
   \ keys
   \ kind-of
+  \ make-map
   \ multi-error
   \ nop
   \ ns
@@ -84,11 +85,14 @@ syntax keyword elvishBuiltinCommand
   \ pprint
   \ prclose
   \ print
+  \ pprint
   \ put
   \ pwclose
   \ range
   \ rand
   \ randint
+  \ read-line
+  \ read-upto
   \ repeat
   \ replaces
   \ repr
@@ -106,6 +110,7 @@ syntax keyword elvishBuiltinCommand
   \ tilde-abbr
   \ to-json
   \ to-lines
+  \ to-string
   \ unset-env
   \ wcswidth
   \ -gc
