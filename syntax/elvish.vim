@@ -234,8 +234,7 @@ syntax region elvishMap start="\[" end="]"
     \ elvishNumber,
     \ elvishOperator,
     \ elvishString,
-    \ elvishVariableAccess,
-    \ elvishVariableAssignment
+    \ elvishVariableAccess
 
 highlight default link elvishBoolean Boolean
 highlight default link elvishBuiltinCommand Builtin
