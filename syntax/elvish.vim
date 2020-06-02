@@ -224,7 +224,10 @@ syntax region elvishScope start="{" end="}"
     \ elvishVariableAccess,
     \ elvishVariableAssignment
 
-syntax region elvishMapKey matchgroup=Operator start="&]\@!" end="="
+" FIXME: Map key highlighting will currently terminate if the value contains
+"        a `]`.  Need a way to negate matching empty map initialization
+"        e.g. `[&]`, without terminating highlighting.
+syntax region elvishMapKey matchgroup=Operator start="&\(\(\s\+\|\)]\)\@!" end="="
 syntax region elvishMap start="\[" end="]"
   \ contains=
     \ elvishBoolean,
