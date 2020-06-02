@@ -62,7 +62,6 @@ syntax keyword elvishBuiltinCommand
   \ has-prefix
   \ has-suffix
   \ has-value
-  \ joins
   \ keys
   \ kind-of
   \ make-map
@@ -93,7 +92,6 @@ syntax keyword elvishBuiltinCommand
   \ read-line
   \ read-upto
   \ repeat
-  \ replaces
   \ repr
   \ resolve
   \ run-parallel
@@ -103,7 +101,6 @@ syntax keyword elvishBuiltinCommand
   \ styled-segment
   \ slurp
   \ spawn
-  \ splits
   \ src
   \ take
   \ tilde-abbr
