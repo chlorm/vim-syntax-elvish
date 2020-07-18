@@ -97,6 +97,7 @@ syntax keyword elvishBuiltinCommand
   \ run-parallel
   \ search-external
   \ set-env
+  \ show
   \ styled
   \ styled-segment
   \ slurp
