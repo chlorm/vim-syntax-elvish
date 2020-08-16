@@ -102,6 +102,7 @@ syntax keyword elvishBuiltinCommand
   \ src
   \ take
   \ tilde-abbr
+  \ time
   \ to-json
   \ to-lines
   \ to-string
@@ -114,7 +115,6 @@ syntax keyword elvishBuiltinCommand
   \ -override-wcwidth
   \ -source
   \ -stack
-  \ -time
 syntax match elvishBuiltinVariable "$_"
 syntax match elvishBuiltinVariable "$after-chdir"
 syntax match elvishBuiltinVariable "$args"
