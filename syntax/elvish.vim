@@ -148,7 +148,7 @@ syntax match elvishNumberHex '\<0[xX][0-9a-fA-F]*\x\>' display
 
 syntax keyword elvishOperatorKeyword and bool is not not-eq or
 syntax match elvishOperator
-  \ '\%(except\s\+\|[a-zA-Z0-9_=*\-]\)\@<!\%(+\|-\|/\|%\|\^\|!\|?\||\)\%([a-zA-Z0-9_=*\-]\)\@!'
+  \ '\%(except\s\+\|[a-zA-Z0-9_=*\-]\)\@<!\%(+\|-\|/\|%\|!\|?\||\)\%([a-zA-Z0-9_=*\-]\)\@!'
 syntax match elvishOperator
   \ '\(!\|+\|-\|\)=\(=\|\)\(s\|\)\|\(>\|<\)\(=\|\)\(s\|\)\|>='
 syntax match elvishOperator ';\|&\|,\|*'
