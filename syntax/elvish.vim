@@ -32,7 +32,6 @@ syntax keyword elvishBuiltinCommand
   \ assoc
   \ base
   \ cd
-  \ chr
   \ constantly
   \ count
   \ dir-history
@@ -46,7 +45,6 @@ syntax keyword elvishBuiltinCommand
   \ eval-symlinks
   \ exec
   \ exit
-  \ explode
   \ external
   \ fail
   \ fclose
@@ -71,7 +69,6 @@ syntax keyword elvishBuiltinCommand
   \ one
   \ only-bytes
   \ only-values
-  \ ord
   \ order
   \ path-abs
   \ path-base
