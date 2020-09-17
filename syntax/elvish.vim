@@ -28,99 +28,108 @@ let b:bareChar = '%([a-zA-Z0-9_-])'
 let b:bareWord = '%(' . b:bareChar . '+)'
 let b:negateBehind = '%(' . b:bareChar . '|[&.=*<>:])@<!'
 let b:negateAhead =  b:bareChar . '@!'
+" FIXME: should only be whitespace chars
+let b:cmdAhead = '%(\s|\n)@='
 
 "
 "" Builtin Commands
 "
 
-syntax keyword elvishBuiltinCommand
-  \ all
-  \ assoc
-  \ base
-  \ bool
-  \ cd
-  \ constantly
-  \ count
-  \ dir-history
-  \ dissoc
-  \ drop
-  \ each
-  \ eawk
-  \ echo
-  \ esleep
-  \ eval-symlinks
-  \ exec
-  \ exit
-  \ external
-  \ fail
-  \ fclose
-  \ fg
-  \ float64
-  \ fopen
-  \ from-json
-  \ from-lines
-  \ get-env
-  \ has-env
-  \ has-external
-  \ has-key
-  \ has-prefix
-  \ has-suffix
-  \ has-value
-  \ keys
-  \ kind-of
-  \ make-map
-  \ multi-error
-  \ nop
-  \ ns
-  \ one
-  \ only-bytes
-  \ only-values
-  \ order
-  \ path-abs
-  \ path-base
-  \ path-clean
-  \ path-dir
-  \ path-ext
-  \ peach
-  \ pipe
-  \ pprint
-  \ prclose
-  \ print
-  \ pprint
-  \ put
-  \ pwclose
-  \ range
-  \ rand
-  \ randint
-  \ read-line
-  \ read-upto
-  \ repeat
-  \ repr
-  \ resolve
-  \ run-parallel
-  \ search-external
-  \ set-env
-  \ show
-  \ styled
-  \ styled-segment
-  \ slurp
-  \ spawn
-  \ src
-  \ take
-  \ tilde-abbr
-  \ time
-  \ to-json
-  \ to-lines
-  \ to-string
-  \ unset-env
-  \ wcswidth
-  \ -gc
-  \ -ifaddrs
-  \ -is-dir
-  \ -log
-  \ -override-wcwidth
-  \ -source
-  \ -stack
+let b:builtinCommands = [
+  \ 'all',
+  \ 'assoc',
+  \ 'base',
+  \ 'bool',
+  \ 'cd',
+  \ 'constantly',
+  \ 'count',
+  \ 'dir-history',
+  \ 'dissoc',
+  \ 'drop',
+  \ 'each',
+  \ 'eawk',
+  \ 'echo',
+  \ 'esleep',
+  \ 'eval-symlinks',
+  \ 'exec',
+  \ 'exit',
+  \ 'external',
+  \ 'fail',
+  \ 'fclose',
+  \ 'fg',
+  \ 'float64',
+  \ 'fopen',
+  \ 'from-json',
+  \ 'from-lines',
+  \ 'get-env',
+  \ 'has-env',
+  \ 'has-external',
+  \ 'has-key',
+  \ 'has-prefix',
+  \ 'has-suffix',
+  \ 'has-value',
+  \ 'keys',
+  \ 'kind-of',
+  \ 'make-map',
+  \ 'multi-error',
+  \ 'nop',
+  \ 'ns',
+  \ 'one',
+  \ 'only-bytes',
+  \ 'only-values',
+  \ 'order',
+  \ 'path-abs',
+  \ 'path-base',
+  \ 'path-clean',
+  \ 'path-dir',
+  \ 'path-ext',
+  \ 'peach',
+  \ 'pipe',
+  \ 'pprint',
+  \ 'prclose',
+  \ 'print',
+  \ 'pprint',
+  \ 'put',
+  \ 'pwclose',
+  \ 'range',
+  \ 'rand',
+  \ 'randint',
+  \ 'read-line',
+  \ 'read-upto',
+  \ 'repeat',
+  \ 'repr',
+  \ 'resolve',
+  \ 'run-parallel',
+  \ 'search-external',
+  \ 'set-env',
+  \ 'show',
+  \ 'styled',
+  \ 'styled-segment',
+  \ 'slurp',
+  \ 'spawn',
+  \ 'src',
+  \ 'take',
+  \ 'tilde-abbr',
+  \ 'time',
+  \ 'to-json',
+  \ 'to-lines',
+  \ 'to-string',
+  \ 'unset-env',
+  \ 'wcswidth',
+  \ '-gc',
+  \ '-ifaddrs',
+  \ '-is-dir',
+  \ '-log',
+  \ '-override-wcwidth',
+  \ '-source',
+  \ '-stack',
+  \ ]
+syntax match elvishBuiltinCommand
+  \ '"'
+execute 'syntax match elvishBuiltinCommand'
+  \ '"\v' . b:negateBehind . 
+    \ '(' . join(b:builtinCommands, '|') . ')' . 
+  \ b:cmdAhead . '"'
 highlight default link elvishBuiltinCommand Builtin
 
 "
@@ -205,8 +214,6 @@ highlight default link elvishNumber Number
 "" Operators
 "
 
-" FIXME: should only be whitespace chars
-let b:cmdAhead = '%(\s|\n)@='
 execute 'syntax match elvishOperatorArithmetic'
   \ '"\v' . b:negateBehind . '([+/%*-])' . b:cmdAhead . '"'
 highlight default link elvishOperatorArithmetic elvishOperator
