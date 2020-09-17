@@ -200,8 +200,15 @@ syntax match  elvishVariableAccess "\$\%(@\|\)[a-zA-Z0-9_-]*"
 syntax match elvishVariableAssignment "[a-zA-Z0-9:_-]*[ ]*\ze="
   \ nextgroup=elvishOperator
 
-syntax region elvishString matchgroup=elvishStringDelimiter start=+"+ end=+"+
-syntax region elvishString matchgroup=elvishStringDelimiter start=+'+ end=+'+
+" FIXME: implement missing escapes
+syntax match elvishStringEscape '\(\\["n]\)' contained
+syntax region elvishString matchgroup=elvishStringDelimiter start='["]' end='["]'
+  \ contains=
+    \ elvishStringEscape
+syntax match elvishStringEscapeSingle "\(['][']\)" contained
+syntax region elvishString matchgroup=elvishStringDelimiter start="[']"  end="[']\%([']\)\@!"
+  \ contains=
+    \ elvishStringEscapeSingle
 
 syntax region elvishCommandSubstitution start="(" end=")"
   \ contains=
@@ -272,6 +279,8 @@ highlight default link elvishRepeat Repeat
 highlight default link elvishStatement Statement
 highlight default link elvishString String
 highlight default link elvishStringDelimiter String
+highlight default link elvishStringEscape Constant
+highlight default link elvishStringEscapeSingle Constant
 highlight default link elvishVariableAccess elvishVariable
 highlight default link elvishVariableAssignment elvishVariable
 highlight default link elvishVariable Normal
