@@ -152,7 +152,7 @@ syntax match elvishNumber '\([&\$]\)\@<!\<[1-9][0-9]*\d\>' display
 syntax match elvishNumberHex '\<0[xX][0-9a-fA-F]*\x\>' display
 
 " FIXME: should only be whitespace chars
-let b:cmdAhead = '\%(\n\|\n\)'
+let b:cmdAhead = '\%(\s\|\n\)'
 execute 'syntax match elvishOperatorArithmetic'
   \ '"' . b:negateBehind . '\(+\|-\|/\|%\|*\)' . b:cmdAhead . '"'
 
