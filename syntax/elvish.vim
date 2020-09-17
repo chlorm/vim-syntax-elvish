@@ -196,10 +196,6 @@ execute 'syntax match elvishVariableAccess'
     \ 'elvishBoolean,'
     \ 'elvishBuiltinVariable'
 
-" XXX: using elvishOperator here may cause unwanted matches.
-syntax match elvishVariableAssignment "[a-zA-Z0-9:_-]*[ ]*\ze="
-  \ nextgroup=elvishOperator
-
 " FIXME: implement missing escapes
 syntax match elvishStringEscape '\(\\["n]\)' contained
 syntax region elvishString matchgroup=elvishStringDelimiter start='["]' end='["]'
