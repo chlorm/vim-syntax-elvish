@@ -24,13 +24,14 @@ set iskeyword+=-
 " Slower, but prevents some elements from not being highlighted when scrolling.
 syntax sync fromstart
 
-let b:bareChar = '\%(\w\|[-]\)'
-let b:bareWord = '\%(' . b:bareChar . '\+\)'
-let b:negateBehind = '\%(' . b:bareChar . '\|[&.=*<>:]\)\@<!'
-let b:negateAhead =  b:bareChar . '\@!'
+let b:bareChar = '%([a-zA-Z0-9_-])'
+let b:bareWord = '%(' . b:bareChar . '+)'
+let b:negateBehind = '%(' . b:bareChar . '|[&.=*<>:])@<!'
+let b:negateAhead =  b:bareChar . '@!'
 
-syntax keyword elvishStatement fn nextgroup=elvishFunction skipwhite
-syntax keyword elvishStatement break continue return
+"
+"" Builtin Commands
+"
 
 syntax keyword elvishBuiltinCommand
   \ all
@@ -120,6 +121,12 @@ syntax keyword elvishBuiltinCommand
   \ -override-wcwidth
   \ -source
   \ -stack
+highlight default link elvishBuiltinCommand Builtin
+
+"
+"" Builtin Variables
+"
+
 syntax match elvishBuiltinVariable "$_"
 syntax match elvishBuiltinVariable "$after-chdir"
 syntax match elvishBuiltinVariable "$args"
@@ -133,42 +140,106 @@ syntax match elvishBuiltinVariable "$paths"
 syntax match elvishBuiltinVariable "$pid"
 syntax match elvishBuiltinVariable "$pwd"
 syntax match elvishBuiltinVariable "$value-out-indicator"
+highlight default link elvishBuiltinVariable Builtin
+
+"
+"" Control Flow
+"
+
+syntax keyword elvishStatement break continue return
+highlight default link elvishStatement Statement
 
 " FIXME: else conflict, need region
 syntax keyword elvishConditional if elif else
+highlight default link elvishConditional Conditional
 " FIXME: else conflict, need region
 syntax keyword elvishRepeat for while else
+highlight default link elvishRepeat Repeat
 " FIXME: else conflict, need region
 syntax keyword elvishException try except else finally
+highlight default link elvishException Exception
+
+syntax cluster elvishControlFlow
+  \ contains=
+    \ elvishConditional,
+    \ elvishException,
+    \ elvishRepeat,
+    \ elvishStatement
+
+"
+"" Modules
+"
+
 syntax keyword elvishInclude use
+highlight default link elvishInclude Include
 
-syntax match elvishBoolean "$true" display
-syntax match elvishBoolean "$false" display
+"
+"" Booleans
+"
 
-" TODO: negatives, floats, scientific notation
-syntax match elvishNumber '\([&\$]\)\@<!\<\d\>' display
-syntax match elvishNumber '\([&\$]\)\@<!\<[1-9][0-9]*\d\>' display
+syntax match elvishBoolean "$true"
+syntax match elvishBoolean "$false"
+highlight default link elvishBoolean Boolean
 
-syntax match elvishNumberHex '\<0[xX][0-9a-fA-F]*\x\>' display
+"
+""  Numbers
+"
+
+" TODO: negatives, floats, scientific notation, octal
+
+" FIXME: backup port fixes from textmate grammar
+syntax match elvishNumberDecimal '\v([&$])@<!(\d+)'
+highlight default link elvishNumberDecimal elvishNumber
+
+" FIXME: backup port fixes from textmate grammar
+syntax match elvishNumberHexidecimal '\v0[xX][0-9a-fA-F]+'
+highlight default link elvishNumberHexidecimal elvishNumber
+
+syntax cluster elvishNumber
+  \ contains=
+    \ elvishNumberDecimal,
+    \ elvishNumberHexidecimal
+highlight default link elvishNumber Number
+
+"
+"" Operators
+"
 
 " FIXME: should only be whitespace chars
-let b:cmdAhead = '\%(\s\|\n\)'
+let b:cmdAhead = '%(\s|\n)@='
 execute 'syntax match elvishOperatorArithmetic'
-  \ '"' . b:negateBehind . '\(+\|-\|/\|%\|*\)' . b:cmdAhead . '"'
+  \ '"\v' . b:negateBehind . '([+/%*-])' . b:cmdAhead . '"'
+highlight default link elvishOperatorArithmetic elvishOperator
 
-syntax match elvishOperatorAssignment '\(=\)'
+syntax match elvishOperatorAssignment '\v([=])'
+highlight default link elvishOperatorAssignment elvishOperator
 
 execute 'syntax match elvishOperatorComparison'
-  \ '"' . b:negateBehind . '\(eq\|not-eq\|is\|<\%[s]\|>\%[s]\|<=\%[s]\|>=\%[s]\|[!]=\%[s]\|==\%[s]\)' . b:cmdAhead . '"'
+  \ '"\v' . b:negateBehind . '(eq|not\-eq|is|\<%[s]|\>%[s]|\<\=%[s]|\>\=%[s]|\!\=%[s]|\=\=%[s])' . b:cmdAhead . '"'
+highlight default link elvishOperatorComparison elvishOperator
 
 execute 'syntax match elvishOperatorLogical'
-  \ '"' . b:negateBehind . '\(and\|or\|not\)' . b:cmdAhead . '"'
+  \ '"\v' . b:negateBehind . '(and|or|not)' . b:cmdAhead . '"'
+highlight default link elvishOperatorLogical elvishOperator
 
-" FIXME: !
-syntax match elvishOperatorOther '\(;\||\|?\|,\|&\|*\)'
+syntax match elvishOperatorOther '\v([;|?,&*])'
+highlight default link elvishOperatorOther elvishOperator
+
+syntax cluster elvishOperator
+  \ contains=
+    \ elvishOperatorArithmetic,
+    \ elvishOperatorAssignment,
+    \ elvishOperatorComparison,
+    \ elvishOperatorLogical,
+    \ elvishOperatorOther
+highlight default link elvishOperator Operator
+
+"
+"" Comments
+"
 
 " FIXME: would be nice to not implement this per-language
-syntax keyword elvishTodo
+syntax keyword elvishTodo contained
   \ BUG
   \ CHANGED
   \ DEBUG
@@ -183,11 +254,31 @@ syntax keyword elvishTodo
   \ WARNING
   \ XXX
   \ ???
-  \ contained
+highlight default link elvishTodo Todo
 
-syntax match elvishComment "#.*$" display contains=elvishTodo
+syntax match elvishComment "#.*$" 
+  \ contains=
+    \ elvishTodo
+highlight default link elvishComment Comment
 
-syntax match elvishFunction "\%(^\s*fn\s\+\)\@<=\%(\w\|-\)*"
+"
+"" Functions
+"
+
+" FIXME: works with only including statement, but cluster fails to work
+syntax keyword elvishFunctionStatement fn nextgroup=elvishFunctionName skipwhite
+highlight default link elvishFunctionStatement Statement
+execute 'syntax match elvishFunctionName contained'
+  \ '"\v' . b:negateBehind . '%(fn\s+)@<=(' . b:bareWord . ')' . '"'
+highlight default link elvishFunctionName Function
+syntax cluster elvishFunction
+  \ contains=
+    \ elvishFunctionName,
+    \ elvishFunctionStatement
+
+"
+"" Variables
+"
 
 " TODO: highlight rest arg symbol
 execute 'syntax match elvishVariableAccess'
@@ -195,16 +286,50 @@ execute 'syntax match elvishVariableAccess'
   \ 'contains='
     \ 'elvishBoolean,'
     \ 'elvishBuiltinVariable'
+highlight default link elvishVariableAccess elvishVariable
+highlight default link elvishVariable Normal
+syntax cluster elvishVariable
+  \ contains=
+    \ elvishVariableAccess
+
+"
+"" Strings
+"
 
 " FIXME: implement missing escapes
-syntax match elvishStringEscape '\(\\["n]\)' contained
-syntax region elvishString matchgroup=elvishStringDelimiter start='["]' end='["]'
-  \ contains=
-    \ elvishStringEscape
+syntax match elvishStringEscapeDouble '\(\\["n]\)' contained
+highlight default link elvishStringEscapeDouble elvishStringConstant
+
 syntax match elvishStringEscapeSingle "\(['][']\)" contained
-syntax region elvishString matchgroup=elvishStringDelimiter start="[']"  end="[']\%([']\)\@!"
+highlight default link elvishStringEscapeSingle elvishStringConstant
+
+syntax cluster elvishStringConstant
+  \ contains=
+    \ elvishStringEscapeDouble,
+    \ elvishStringEscapeSingle
+highlight default link elvishStringConstant Constant
+
+syntax region elvishStringDouble matchgroup=elvishStringDelimiter start='["]' end='["]'
+  \ contains=
+    \ elvishStringEscapeDouble
+highlight default link elvishStringDouble elvishString
+
+syntax region elvishStringSingle matchgroup=elvishStringDelimiter start="[']"  end="[']\%([']\)\@!"
   \ contains=
     \ elvishStringEscapeSingle
+highlight default link elvishStringSingle elvishString
+
+syntax cluster elvishString
+  \ contains=
+    \ elvishStringDouble,
+    \ elvishStringSingle
+highlight default link elvishString String
+
+highlight default link elvishStringDelimiter String
+
+"
+"" Command Substitution
+"
 
 syntax region elvishCommandSubstitution start="(" end=")"
   \ contains=
@@ -213,72 +338,50 @@ syntax region elvishCommandSubstitution start="(" end=")"
     \ elvishBuiltinVariable,
     \ elvishComment,
     \ elvishMap,
-    \ elvishNumber,
-    \ elvishOperator,
-    \ elvishOperatorKeyword,
-    \ elvishString,
-    \ elvishVariableAccess,
-    \ elvishVariableAssignment
+    \ @elvishNumber,
+    \ @elvishOperator,
+    \ @elvishString,
+    \ @elvishVariable
 
-syntax region elvishScope start="{" end="}"
+"
+"" Lambdas
+"
+
+syntax region elvishLambda start="{" end="}"
   \ contains=
     \ elvishBoolean,
     \ elvishBuiltinCommand,
     \ elvishBuiltinVariable,
     \ elvishComment,
-    \ elvishConditional,
-    \ elvishException,
-    \ elvishFunction,
+    \ @elvishControlFlow,
+    \ @elvishFunction,
+    \ elvishInclude,
     \ elvishMap,
-    \ elvishNumber,
-    \ elvishOperator,
-    \ elvishOperatorKeyword,
-    \ elvishRepeat,
-    \ elvishStatement,
-    \ elvishString,
-    \ elvishVariableAccess,
-    \ elvishVariableAssignment
+    \ @elvishNumber,
+    \ @elvishOperator,
+    \ @elvishString,
+    \ @elvishVariable
 
-" FIXME: Map key highlighting will currently terminate if the value contains
-"        a `]`.  Need a way to negate matching empty map initialization
-"        e.g. `[&]`, without terminating highlighting.
-syntax region elvishMapKey matchgroup=Operator start="&\(\(\s\+\|\)]\)\@!" end="="
+"
+"" Maps
+"
+
+syntax match elvishBareWord '\(\w\|[-]\)\+' contained
+syntax region elvishMapKey matchgroup=Operator
+  \ start="\(&\)\%(\w\|[$'\"-]\)\@="
+  \ end="\%(\w\|['\"-]\)\@<=\(\%[=]\)"
+  \ contains=
+    \ elvishBareWord,
+    \ @elvishString,
+    \ @elvishVariable
+highlight default link elvishMapKey FunctionArgument
 syntax region elvishMap start="\[" end="]"
   \ contains=
     \ elvishBoolean,
     \ elvishBuiltinVariable,
     \ elvishCommandSubstitution,
     \ elvishMapKey,
-    \ elvishNumber,
-    \ elvishOperator,
-    \ elvishString,
-    \ elvishVariableAccess
-
-highlight default link elvishBoolean Boolean
-highlight default link elvishBuiltinCommand Builtin
-highlight default link elvishBuiltinVariable Builtin
-highlight default link elvishComment Comment
-highlight default link elvishConditional Conditional
-highlight default link elvishException Exception
-highlight default link elvishFunction Function
-highlight default link elvishInclude Include
-highlight default link elvishMapKey FunctionArgument
-highlight default link elvishNumber Number
-highlight default link elvishNumberHex Number
-highlight default link elvishOperator Operator
-highlight default link elvishOperatorArithmetic Operator
-highlight default link elvishOperatorAssignment Operator
-highlight default link elvishOperatorComparison Operator
-highlight default link elvishOperatorLogical Operator
-highlight default link elvishOperatorOther Operator
-highlight default link elvishRepeat Repeat
-highlight default link elvishStatement Statement
-highlight default link elvishString String
-highlight default link elvishStringDelimiter String
-highlight default link elvishStringEscape Constant
-highlight default link elvishStringEscapeSingle Constant
-highlight default link elvishVariableAccess elvishVariable
-highlight default link elvishVariableAssignment elvishVariable
-highlight default link elvishVariable Normal
-highlight default link elvishTodo Todo
-
+    \ @elvishNumber,
+    \ @elvishOperator,
+    \ @elvishString,
+    \ @elvishVariable
