@@ -134,19 +134,23 @@ highlight default link elvishBuiltinCommand Builtin
 "" Builtin Variables
 "
 
-syntax match elvishBuiltinVariable "$_"
-syntax match elvishBuiltinVariable "$after-chdir"
-syntax match elvishBuiltinVariable "$args"
-syntax match elvishBuiltinVariable "$before-chdir"
-syntax match elvishBuiltinVariable "$E"
-syntax match elvishBuiltinVariable "$ok"
-syntax match elvishBuiltinVariable "$nil"
-syntax match elvishBuiltinVariable "$num-bg-jobs"
-syntax match elvishBuiltinVariable "$notify-bg-job-access"
-syntax match elvishBuiltinVariable "$paths"
-syntax match elvishBuiltinVariable "$pid"
-syntax match elvishBuiltinVariable "$pwd"
-syntax match elvishBuiltinVariable "$value-out-indicator"
+let b:builtinVariables = [
+  \ '_',
+  \ 'after-chdir',
+  \ 'args',
+  \ 'before-chdir',
+  \ 'E',
+  \ 'ok',
+  \ 'nil',
+  \ 'num-bg-jobs',
+  \ 'notify-bg-job-access',
+  \ 'paths',
+  \ 'pid',
+  \ 'pwd',
+  \ 'value-out-indicator',
+  \ ]
+execute 'syntax match elvishBuiltinVariable'
+  \ '"' . '\v([$]%(' . join(b:builtinVariables, '|') . '))' . b:negateAhead . '"'
 highlight default link elvishBuiltinVariable Builtin
 
 "
