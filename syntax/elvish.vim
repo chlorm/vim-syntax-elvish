@@ -189,13 +189,13 @@ syntax match elvishComment "#.*$" display contains=elvishTodo
 
 syntax match elvishFunction "\%(^\s*fn\s\+\)\@<=\%(\w\|-\)*"
 
-syntax match  elvishDeref contained "\%(\\\\\)*\\[\\"'`$(){}#]"
-syntax cluster elvishDerefList  contains=elvishDeref
-syntax match  elvishVariableAccess "\$\%(@\|\)[a-zA-Z0-9_-]*"
-  \ contains=
-    \ elvishBoolean,
-    \ elvishBuiltinVariable
-  \ nextgroup=@elvishDerefList
+" TODO: highlight rest arg symbol
+execute 'syntax match elvishVariableAccess'
+  \ '"' . b:negateBehind . '[$]\%[@]' . b:bareWord . '\%[\~]' . '"'
+  \ 'contains='
+    \ 'elvishBoolean,'
+    \ 'elvishBuiltinVariable'
+
 " XXX: using elvishOperator here may cause unwanted matches.
 syntax match elvishVariableAssignment "[a-zA-Z0-9:_-]*[ ]*\ze="
   \ nextgroup=elvishOperator
