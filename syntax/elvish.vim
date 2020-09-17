@@ -221,19 +221,21 @@ highlight default link elvishOperatorArithmetic elvishOperator
 syntax match elvishOperatorAssignment '\v([=])'
 highlight default link elvishOperatorAssignment elvishOperator
 
-let b:compOpts = [
-  \ 'eq'
-  \ 'not\-eq'
-  \ 'is'
-  \ '\<%[s]'
-  \ '\<\=%[s]'
-  \ '\>%[s]'
-  \ '\>\=%[s]'
-  \ '\!\=%[s]'
-  \ '\=\=%[s]'
+let b:comparisonOperators = [
+  \ 'eq',
+  \ 'not\-eq',
+  \ 'is',
+  \ '\<%[s]',
+  \ '\<\=%[s]',
+  \ '\>%[s]',
+  \ '\>\=%[s]',
+  \ '\!\=%[s]',
+  \ '\=\=%[s]',
   \ ]
 execute 'syntax match elvishOperatorComparison'
-  \ '"\v' . b:negateBehind . '(' . join(b:compOpts, '|') . ')' . b:cmdAhead . '"'
+  \ '"\v' . b:negateBehind .
+    \ '(' . join(b:comparisonOperators, '|') . ')' .
+  \ b:cmdAhead . '"'
 highlight default link elvishOperatorComparison elvishOperator
 
 execute 'syntax match elvishOperatorLogical'
