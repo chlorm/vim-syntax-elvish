@@ -124,8 +124,6 @@ let b:builtinCommands = [
   \ '-source',
   \ '-stack',
   \ ]
-syntax match elvishBuiltinCommand
-  \ '"'
 execute 'syntax match elvishBuiltinCommand'
   \ '"\v' . b:negateBehind . 
     \ '(' . join(b:builtinCommands, '|') . ')' . 
