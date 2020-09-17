@@ -24,6 +24,11 @@ set iskeyword+=-
 " Slower, but prevents some elements from not being highlighted when scrolling.
 syntax sync fromstart
 
+let b:bareChar = '\%(\w\|[-]\)'
+let b:bareWord = '\%(' . b:bareChar . '\+\)'
+let b:negateBehind = '\%(' . b:bareChar . '\|[&.=*<>:]\)\@<!'
+let b:negateAhead =  b:bareChar . '\@!'
+
 syntax keyword elvishStatement fn nextgroup=elvishFunction skipwhite
 syntax keyword elvishStatement break continue return
 
@@ -31,6 +36,7 @@ syntax keyword elvishBuiltinCommand
   \ all
   \ assoc
   \ base
+  \ bool
   \ cd
   \ constantly
   \ count
@@ -40,7 +46,6 @@ syntax keyword elvishBuiltinCommand
   \ each
   \ eawk
   \ echo
-  \ eq
   \ esleep
   \ eval-symlinks
   \ exec
@@ -146,12 +151,21 @@ syntax match elvishNumber '\([&\$]\)\@<!\<[1-9][0-9]*\d\>' display
 
 syntax match elvishNumberHex '\<0[xX][0-9a-fA-F]*\x\>' display
 
-syntax keyword elvishOperatorKeyword and bool is not not-eq or
-syntax match elvishOperator
-  \ '\%(except\s\+\|[a-zA-Z0-9_=*\-]\)\@<!\%(+\|-\|/\|%\|!\|?\||\)\%([a-zA-Z0-9_=*\-]\)\@!'
-syntax match elvishOperator
-  \ '\(!\|+\|-\|\)=\(=\|\)\(s\|\)\|\(>\|<\)\(=\|\)\(s\|\)\|>='
-syntax match elvishOperator ';\|&\|,\|*'
+" FIXME: should only be whitespace chars
+let b:cmdAhead = '\%(\n\|\n\)'
+execute 'syntax match elvishOperatorArithmetic'
+  \ '"' . b:negateBehind . '\(+\|-\|/\|%\|*\)' . b:cmdAhead . '"'
+
+syntax match elvishOperatorAssignment '\(=\)'
+
+execute 'syntax match elvishOperatorComparison'
+  \ '"' . b:negateBehind . '\(eq\|not-eq\|is\|<\%[s]\|>\%[s]\|<=\%[s]\|>=\%[s]\|[!]=\%[s]\|==\%[s]\)' . b:cmdAhead . '"'
+
+execute 'syntax match elvishOperatorLogical'
+  \ '"' . b:negateBehind . '\(and\|or\|not\)' . b:cmdAhead . '"'
+
+" FIXME: !
+syntax match elvishOperatorOther '\(;\||\|?\|,\|&\|*\)'
 
 " FIXME: would be nice to not implement this per-language
 syntax keyword elvishTodo
@@ -249,7 +263,11 @@ highlight default link elvishMapKey FunctionArgument
 highlight default link elvishNumber Number
 highlight default link elvishNumberHex Number
 highlight default link elvishOperator Operator
-highlight default link elvishOperatorKeyword Operator
+highlight default link elvishOperatorArithmetic Operator
+highlight default link elvishOperatorAssignment Operator
+highlight default link elvishOperatorComparison Operator
+highlight default link elvishOperatorLogical Operator
+highlight default link elvishOperatorOther Operator
 highlight default link elvishRepeat Repeat
 highlight default link elvishStatement Statement
 highlight default link elvishString String
