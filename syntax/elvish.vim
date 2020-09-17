@@ -317,10 +317,10 @@ syntax cluster elvishVariable
 "
 
 " FIXME: implement missing escapes
-syntax match elvishStringEscapeDouble '\(\\["n]\)' contained
+syntax match elvishStringEscapeDouble '\v(\\["n])' contained
 highlight default link elvishStringEscapeDouble elvishStringConstant
 
-syntax match elvishStringEscapeSingle "\(['][']\)" contained
+syntax match elvishStringEscapeSingle "\v([']['])" contained
 highlight default link elvishStringEscapeSingle elvishStringConstant
 
 syntax cluster elvishStringConstant
@@ -329,12 +329,16 @@ syntax cluster elvishStringConstant
     \ elvishStringEscapeSingle
 highlight default link elvishStringConstant Constant
 
-syntax region elvishStringDouble matchgroup=elvishStringDelimiter start='["]' end='["]'
+syntax region elvishStringDouble matchgroup=elvishStringDelimiter
+  \ start='\v["]'
+  \ end='\v["]'
   \ contains=
     \ elvishStringEscapeDouble
 highlight default link elvishStringDouble elvishString
 
-syntax region elvishStringSingle matchgroup=elvishStringDelimiter start="[']"  end="[']\%([']\)\@!"
+syntax region elvishStringSingle matchgroup=elvishStringDelimiter
+  \ start="\v[']"
+  \ end="\v[']%(['])@!"
   \ contains=
     \ elvishStringEscapeSingle
 highlight default link elvishStringSingle elvishString
