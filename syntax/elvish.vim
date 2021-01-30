@@ -88,14 +88,14 @@ let b:builtinCommands = [
   \ 'cd',
   \ 'constantly',
   \ 'count',
+  \ 'deprecate',
   \ 'dir-history',
   \ 'dissoc',
   \ 'drop',
   \ 'each',
   \ 'eawk',
   \ 'echo',
-  \ 'esleep',
-  \ 'eval-symlinks',
+  \ 'eval',
   \ 'exec',
   \ 'exit',
   \ 'external',
@@ -110,8 +110,6 @@ let b:builtinCommands = [
   \ 'has-env',
   \ 'has-external',
   \ 'has-key',
-  \ 'has-prefix',
-  \ 'has-suffix',
   \ 'has-value',
   \ 'keys',
   \ 'kind-of',
@@ -123,11 +121,6 @@ let b:builtinCommands = [
   \ 'only-bytes',
   \ 'only-values',
   \ 'order',
-  \ 'path-abs',
-  \ 'path-base',
-  \ 'path-clean',
-  \ 'path-dir',
-  \ 'path-ext',
   \ 'peach',
   \ 'pipe',
   \ 'pprint',
@@ -148,11 +141,12 @@ let b:builtinCommands = [
   \ 'search-external',
   \ 'set-env',
   \ 'show',
-  \ 'styled',
-  \ 'styled-segment',
+  \ 'sleep',
   \ 'slurp',
   \ 'spawn',
   \ 'src',
+  \ 'styled',
+  \ 'styled-segment',
   \ 'take',
   \ 'tilde-abbr',
   \ 'time',
@@ -163,10 +157,8 @@ let b:builtinCommands = [
   \ 'wcswidth',
   \ '-gc',
   \ '-ifaddrs',
-  \ '-is-dir',
   \ '-log',
   \ '-override-wcwidth',
-  \ '-source',
   \ '-stack',
   \ ]
 execute 'syntax match elvishBuiltinCommand'
@@ -277,6 +269,7 @@ execute 'syntax match elvishOperatorArithmetic'
   \ '"\v' . b:negateBehind . '([+/%*-])' . b:cmdAhead . '"'
 highlight default link elvishOperatorArithmetic elvishOperator
 
+syntax keyword elvishOperatorAssignment set var
 syntax match elvishOperatorAssignment '\v([=])'
 highlight default link elvishOperatorAssignment elvishOperator
 
