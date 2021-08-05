@@ -214,6 +214,7 @@ syntax region elvishMap start="\[" end="]"
   \ contains=
     \ elvishBuiltinVariable,
     \ elvishCommandSubstitution,
+    \ elvishComment,
     \ elvishListRange,
     \ elvishMapKey,
     \ @elvishNumber,
