@@ -1,4 +1,4 @@
-" Copyright (c) 2018-2020, Cody Opel <cwopel@chlorm.net>
+" Copyright (c) 2018-2021, Cody Opel <cwopel@chlorm.net>
 "
 " Licensed under the Apache License, Version 2.0 (the "License");
 " you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ syntax region elvishCommandSubstitution start="(" end=")"
     \ @elvishFunctions,
     \ elvishMap,
     \ @elvishNumber,
+    \ @elvishRedirection,
     \ @elvishOperator,
     \ @elvishString,
     \ @elvishVariable
@@ -185,7 +186,8 @@ syntax region elvishLambda start="{" end="}"
     \ @elvishControlFlow,
     \ @elvishFunctions,
     \ elvishInclude,
-    \ elvishMap,
+    \ elvishRedirection,
+    \ @elvishMap,
     \ @elvishNumber,
     \ @elvishOperator,
     \ @elvishString,
@@ -255,6 +257,23 @@ syntax cluster elvishNumber
     \ elvishNumberFloat,
     \ elvishNumberHexidecimal
 highlight default link elvishNumber Number
+
+"
+"" Redirections
+"
+
+let b:redirections = [
+  \ '\<',
+  \ '\>\>',
+  \ '[0-9]\>\&\-',
+  \ '\>\&\-',
+  \ '[0-9]\>\&[0-9]',
+  \ '[0-9]\>',
+  \ '\>\&[0-9]',
+  \ ]
+execute 'syntax match elvishRedirection'
+  \ '"\v(' . join(b:redirections, '|') . ')"'
+highlight default link elvishRedirection elvishOperator
 
 "
 "" Operators
