@@ -67,7 +67,7 @@ syntax keyword elvishConditional if elif else
 highlight default link elvishConditional Conditional
 syntax keyword elvishRepeat for while
 highlight default link elvishRepeat Repeat
-syntax keyword elvishException try except finally
+syntax keyword elvishException try catch finally
 highlight default link elvishException Exception
 
 syntax cluster elvishControlFlow
@@ -86,9 +86,11 @@ let b:builtinCommands = [
   \ 'assoc',
   \ 'base',
   \ 'bool',
+  \ 'call',
   \ 'cd',
   \ 'constantly',
   \ 'count',
+  \ 'defer',
   \ 'deprecate',
   \ 'dir-history',
   \ 'dissoc',
@@ -146,6 +148,7 @@ let b:builtinCommands = [
   \ 'take',
   \ 'tilde-abbr',
   \ 'time',
+  \ 'tmp',
   \ 'to-json',
   \ 'to-lines',
   \ 'to-string',
