@@ -125,6 +125,7 @@ let b:builtinCommands = [
   \ 'order',
   \ 'peach',
   \ 'pprint',
+  \ 'pragma',
   \ 'print',
   \ 'pprint',
   \ 'put',
