@@ -92,7 +92,6 @@ let b:builtinCommands = [
   \ 'count',
   \ 'defer',
   \ 'deprecate',
-  \ 'dir-history',
   \ 'dissoc',
   \ 'drop',
   \ 'each',
