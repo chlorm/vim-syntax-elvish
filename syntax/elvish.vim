@@ -311,7 +311,7 @@ execute 'syntax match elvishOperatorComparison'
 highlight default link elvishOperatorComparison elvishOperator
 
 execute 'syntax match elvishOperatorLogical'
-  \ '"\v' . b:negateBehind . '(and|or|not)' . b:cmdAhead . '"'
+  \ '"\v' . b:negateBehind . '(and|coalesce|or|not)' . b:cmdAhead . '"'
 highlight default link elvishOperatorLogical elvishOperator
 
 syntax match elvishOperatorOther '\v([;|?,&*])'
