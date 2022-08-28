@@ -1,5 +1,5 @@
 vim-elvish-syntax
 =================
 
-##### Vim syntax definition for [Elvish](https://github.com/elves/elvish) shell.
+##### [Vim](https://www.vim.org) syntax definition for [Elvish](https://github.com/elves/elvish) shell.
 
